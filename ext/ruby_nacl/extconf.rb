@@ -1,9 +1,12 @@
 require 'mkmf-rice'
 
-HEADER_DIRS = ['/Users/pr0zac/Development/ruby_nacl/ext/ruby_nacl/nacl-20110221/build/Peterbilt/include/amd64']
-LIB_DIRS = ['/Users/pr0zac/Development/ruby_nacl/ext/ruby_nacl/nacl-20110221/build/Peterbilt/lib/amd64']
+hostname = `hostname`.split('.')[0]
+arch = `uname -m`.strip == 'x86_64' ? 'amd64' : 'x86'
 
-$objs = ['/Users/pr0zac/Development/ruby_nacl/ext/ruby_nacl/nacl-20110221/build/Peterbilt/lib/amd64/randombytes.o', 'ruby_nacl.o']
+HEADER_DIRS = ["nacl/build/#{hostname}/include/#{arch}"]
+LIB_DIRS = ["nacl/build/#{hostname}/lib/#{arch}"]
+
+$objs = ["nacl/build/#{hostname}/lib/#{arch}/randombytes.o", "ruby_nacl.o"]
 
 dir_config('ruby_nacl', HEADER_DIRS, LIB_DIRS)
 

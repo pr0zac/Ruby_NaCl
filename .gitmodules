@@ -1,0 +1,3 @@
+[submodule "ext/ruby_nacl/nacl"]
+	path = ext/ruby_nacl/nacl
+	url = git@github.com:CaffeinatedMind/NaCl.git
