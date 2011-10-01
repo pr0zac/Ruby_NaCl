@@ -12,10 +12,12 @@ Ruby_NaCl is a Ruby gem that provides a wrapper around DJB's awesome NaCl librar
 
 ## Install the gem ##
 
-1. git clone git@github.com:CaffeinatedMind/Ruby_NaCl.git
+1. git clone http://github.com/CaffeinatedMind/NaCl.git
 2. cd Ruby_NaCl
-3. gem build ruby_nacl.gemspec
-4. gem install ruby_nacl-0.1.0.gem
+3. git submodule init
+4. git submodule update
+5. gem build ruby_nacl.gemspec
+6. gem install ruby_nacl-0.1.0.gem
 
 
 
