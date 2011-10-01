@@ -1,6 +1,7 @@
-# About Ruby_NaCl #
+## About Ruby_NaCl ##
 
 Ruby_NaCl is a Ruby gem that provides a wrapper around DJB's awesome NaCl library.
+
 
 
 ## What is NaCl? ##
@@ -8,7 +9,8 @@ Ruby_NaCl is a Ruby gem that provides a wrapper around DJB's awesome NaCl librar
 [NaCl (pronounced "salt")](http://http://nacl.cr.yp.to/) is a new easy-to-use high-speed software library for network communication, encryption, decryption, signatures, etc written by Daniel J. Bernstein.
 
 
-### Install the gem ###
+
+## Install the gem ##
 
 1. git clone git@github.com:CaffeinatedMind/Ruby_NaCl.git
 2. cd Ruby_NaCl
@@ -16,7 +18,8 @@ Ruby_NaCl is a Ruby gem that provides a wrapper around DJB's awesome NaCl librar
 4. gem install ruby_nacl-0.1.0.gem
 
 
-### "Hello, World" example ###
+
+## "Hello, World" example ##
 
     require 'ruby_nacl'
     
@@ -35,7 +38,8 @@ Ruby_NaCl is a Ruby gem that provides a wrapper around DJB's awesome NaCl librar
     encrypted_message = sender.public_encrypt(message)
     decrypted_message = receiver.public_decrypt(encrypted_message)
     puts decrypted_message
-    
+
+
 
 ## License ##
 
