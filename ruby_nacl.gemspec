@@ -11,4 +11,5 @@ Gem::Specification.new do |s|
   s.description = "Provides a ruby interface to DJB's NaCl library."
   s.files = [ "README.md", "Changelog"] + FileList["ext/**/*"].to_a
   s.extensions = ['ext/ruby_nacl/extconf.rb']
+  s.add_dependency('rice', '>= 1.4.2')
 end
