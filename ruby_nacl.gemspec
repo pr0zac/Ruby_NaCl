@@ -9,6 +9,6 @@ Gem::Specification.new do |s|
   s.summary = "Ruby NaCl library."
   s.homepage = "http://github.com/CaffeinatedMind/ruby_nacl"
   s.description = "Provides a ruby interface to DJB's NaCl library."
-  s.files = [ "README", "Changelog"] + FileList["ext/**/*"].to_a
+  s.files = [ "README.md", "Changelog"] + FileList["ext/**/*"].to_a
   s.extensions = ['ext/ruby_nacl/extconf.rb']
 end

@@ -1,3 +1,6 @@
 [submodule "ext/ruby_nacl/nacl"]
 	path = ext/ruby_nacl/nacl
 	url = git@github.com:CaffeinatedMind/NaCl.git
+[submodule "ext/ruby_nacl/NaCl"]
+	path = ext/ruby_nacl/NaCl
+	url = git@github.com:CaffeinatedMind/NaCl.git

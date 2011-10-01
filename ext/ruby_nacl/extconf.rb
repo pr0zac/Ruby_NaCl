@@ -3,10 +3,10 @@ require 'mkmf-rice'
 hostname = `hostname`.split('.')[0]
 arch = `uname -m`.strip == 'x86_64' ? 'amd64' : 'x86'
 
-HEADER_DIRS = ["nacl/build/#{hostname}/include/#{arch}"]
-LIB_DIRS = ["nacl/build/#{hostname}/lib/#{arch}"]
+HEADER_DIRS = ["NaCl/build/#{hostname}/include/#{arch}"]
+LIB_DIRS = ["NaCl/build/#{hostname}/lib/#{arch}"]
 
-$objs = ["nacl/build/#{hostname}/lib/#{arch}/randombytes.o", "ruby_nacl.o"]
+$objs = ["NaCl/build/#{hostname}/lib/#{arch}/randombytes.o", "ruby_nacl.o"]
 
 dir_config('ruby_nacl', HEADER_DIRS, LIB_DIRS)
 
