@@ -21,24 +21,25 @@ Ruby_NaCl is a Ruby gem that provides a wrapper around DJB's awesome NaCl librar
 
 ## "Hello, World" example ##
 
-    require 'ruby_nacl'
-    
-    sender = NaCl.new
-    receiver = NaCl.new
-    
-    sender.set_remote_nonce(receiver.nonce)
-    receiver.set_remote_nonce(sender.nonce)
-    
-    sender.set_remote_key(receiver.public_key)
-    receiver.set_remote_key(sender.public_key)
-    
-    receiver.set_secret(sender.secret)
-    
-    message = "Hello world!"
-    encrypted_message = sender.public_encrypt(message)
-    decrypted_message = receiver.public_decrypt(encrypted_message)
-    puts decrypted_message
+```ruby
+require 'ruby_nacl'
 
+sender = NaCl.new
+receiver = NaCl.new
+
+sender.set_remote_nonce(receiver.nonce)
+receiver.set_remote_nonce(sender.nonce)
+
+sender.set_remote_key(receiver.public_key)
+receiver.set_remote_key(sender.public_key)
+
+receiver.set_secret(sender.secret)
+
+message = "Hello world!"
+encrypted_message = sender.public_encrypt(message)
+decrypted_message = receiver.public_decrypt(encrypted_message)
+puts decrypted_message
+```
 
 
 ## License ##
