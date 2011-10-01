@@ -12,7 +12,7 @@ Ruby_NaCl is a Ruby gem that provides a wrapper around DJB's awesome NaCl librar
 
 ## Install the gem ##
 
-1. git clone http://github.com/CaffeinatedMind/NaCl.git
+1. git clone http://github.com/CaffeinatedMind/Ruby_NaCl.git
 2. cd Ruby_NaCl
 3. git submodule init
 4. git submodule update
@@ -47,4 +47,3 @@ puts decrypted_message
 ## License ##
 
 Ruby_NaCl is licensed under the [Ruby License](http://www.ruby-lang.org/en/LICENSE.txt).
-
