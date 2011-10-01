@@ -2,8 +2,9 @@
 
 NaCl::NaCl()
 {
-    my_pk = crypto_box_keypair(&my_sk);
-    generate_inc_nonce();
+    gen_new_incoming_nonce();
+    gen_new_keys();
+    gen_new_shared_secret();
 }
 
 String NaCl::incoming_nonce()
@@ -14,6 +15,17 @@ String NaCl::incoming_nonce()
 void NaCl::set_outgoing_nonce(String nonce)
 {
     out_nonce = from_ruby<std::string>(nonce);
+}
+
+void NaCl::gen_new_incoming_nonce()
+{
+    char nonce_array[crypto_box_NONCEBYTES+1];
+    for (int i = 0; i < crypto_box_NONCEBYTES; ++i)
+    {
+        nonce_array[i] = (rand() % 254) + 1;
+    }
+    nonce_array[crypto_box_NONCEBYTES] = 0;
+    inc_nonce = nonce_array;
 }
 
 String NaCl::my_public_key()
@@ -31,36 +43,86 @@ void NaCl::set_their_public_key(String pk)
     their_pk = from_ruby<std::string>(pk);
 }
 
-String NaCl::decrypt(String enc_msg)
+void NaCl::gen_new_keys()
 {
-    std::string encrypted_message = from_ruby<std::string>(enc_msg);
-    std::string message = crypto_box_open(encrypted_message, inc_nonce, their_pk, my_sk);
-    
-    out_nonce = message.substr(0, crypto_box_NONCEBYTES);
-    std::string data = message.substr(crypto_box_NONCEBYTES, message.size());
-    return to_ruby<std::string>(data);
+    my_pk = crypto_box_keypair(&my_sk);
 }
 
-String NaCl::encrypt(String data)
+String NaCl::shared_secret()
 {
-    generate_inc_nonce();
-    std::string message = inc_nonce;
-    message += from_ruby<std::string>(data);
-
-    std::string encrypted_message = crypto_box(message, out_nonce, their_pk, my_sk);
-    return to_ruby<std::string>(encrypted_message);
+    return to_ruby<std::string>(secret);
 }
 
-void NaCl::generate_inc_nonce()
+void NaCl::set_shared_secret(String new_secret)
 {
-    char nonce_array[crypto_box_NONCEBYTES+1];
-    for (int i = 0; i < crypto_box_NONCEBYTES; ++i)
+    secret = from_ruby<std::string>(new_secret);
+}
+
+void NaCl::gen_new_shared_secret()
+{
+    char secret_array[crypto_secretbox_KEYBYTES+1];
+    for (int i = 0; i < crypto_secretbox_KEYBYTES; ++i)
     {
-        nonce_array[i] = (rand() % 254) + 1;
+        secret_array[i] = (rand() % 254) + 1;
     }
-    nonce_array[crypto_box_NONCEBYTES] = 0;
+    secret_array[crypto_secretbox_KEYBYTES] = 0;
+    secret = secret_array;
+}
 
-    inc_nonce = nonce_array;
+String NaCl::public_decrypt(String enc_msg)
+{
+    try
+    {
+        std::string encrypted_message = from_ruby<std::string>(enc_msg);
+        std::string message = crypto_box_open(encrypted_message, inc_nonce, their_pk, my_sk);
+        return to_ruby<std::string>(message);
+    }
+    catch (int e)
+    {
+        return to_ruby<std::string>("");
+    }
+}
+
+String NaCl::public_encrypt(String msg)
+{
+    try
+    {
+        std::string message = from_ruby<std::string>(msg);
+        std::string encrypted_message = crypto_box(message, out_nonce, their_pk, my_sk);
+        return to_ruby<std::string>(encrypted_message);
+    }
+    catch (int e)
+    {
+        return to_ruby<std::string>("");
+    }
+}
+
+String NaCl::secret_decrypt(String enc_msg)
+{
+    try
+    {
+        std::string encrypted_message = from_ruby<std::string>(enc_msg);
+        std::string message = crypto_secretbox_open(encrypted_message, inc_nonce, secret);
+        return to_ruby<std::string>(message);
+    }
+    catch (int e)
+    {
+        return to_ruby<std::string>("");
+    }
+}
+
+String NaCl::secret_encrypt(String msg)
+{
+    try
+    {
+        std::string message = from_ruby<std::string>(msg);
+        std::string encrypted_message = crypto_secretbox(message, out_nonce, secret);
+        return to_ruby<std::string>(encrypted_message);
+    }
+    catch (int e)
+    {
+        return to_ruby<std::string>("");
+    }
 }
 
 extern "C"
@@ -70,9 +132,16 @@ void Init_ruby_nacl()
                               .define_constructor(Constructor<NaCl>())
                               .define_method("incoming_nonce", &NaCl::incoming_nonce)
                               .define_method("set_outgoing_nonce", &NaCl::set_outgoing_nonce)
+                              .define_method("gen_new_incoming_nonce", &NaCl::gen_new_incoming_nonce)
                               .define_method("my_public_key", &NaCl::my_public_key)
                               .define_method("my_secret_key", &NaCl::my_secret_key)
                               .define_method("set_their_public_key", &NaCl::set_their_public_key)
-                              .define_method("decrypt", &NaCl::decrypt)
-                              .define_method("encrypt", &NaCl::encrypt);
+                              .define_method("gen_new_keys", &NaCl::gen_new_keys)
+                              .define_method("shared_secret", &NaCl::shared_secret)
+                              .define_method("set_shared_secret", &NaCl::set_shared_secret)
+                              .define_method("gen_new_shared_secret", &NaCl::gen_new_shared_secret)
+                              .define_method("public_decrypt", &NaCl::public_decrypt)
+                              .define_method("public_encrypt", &NaCl::public_encrypt)
+                              .define_method("secret_decrypt", &NaCl::secret_decrypt)
+                              .define_method("secret_encrypt", &NaCl::secret_encrypt);
 }
