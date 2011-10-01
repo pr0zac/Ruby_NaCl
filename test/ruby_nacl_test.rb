@@ -3,13 +3,13 @@ require 'ruby_nacl'
 sender = NaCl.new
 receiver = NaCl.new
 
-sender.set_outgoing_nonce(receiver.incoming_nonce)
-receiver.set_outgoing_nonce(sender.incoming_nonce)
+sender.set_remote_nonce(receiver.nonce)
+receiver.set_remote_nonce(sender.nonce)
 
-sender.set_their_public_key(receiver.my_public_key)
-receiver.set_their_public_key(sender.my_public_key)
+sender.set_remote_key(receiver.public_key)
+receiver.set_remote_key(sender.public_key)
 
-receiver.set_shared_secret(sender.shared_secret)
+receiver.set_secret(sender.secret)
 
 message = "This is a test message"
 encrypted_message = sender.public_encrypt(message)
