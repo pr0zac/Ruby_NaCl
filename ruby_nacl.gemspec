@@ -2,7 +2,7 @@ require 'rake'
 
 Gem::Specification.new do |s|
   s.name = "ruby_nacl"
-  s.version = "0.1.0"
+  s.version = "0.1.1"
   s.date = "2011-09-30"
   s.authors = ["Zac Morris"]
   s.email = "zac@caffeinatedmind.com"
