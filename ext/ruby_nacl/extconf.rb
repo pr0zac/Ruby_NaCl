@@ -1,6 +1,6 @@
 require 'mkmf-rice'
 
-hostname = `hostname`.split('.')[0]
+hostname = `hostname`.strip.split('.')[0]
 arch = `uname -m`.strip == 'x86_64' ? 'amd64' : 'x86'
 
 HEADER_DIRS = ["NaCl/build/#{hostname}/include/#{arch}"]
